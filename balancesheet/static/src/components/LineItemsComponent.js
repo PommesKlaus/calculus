@@ -1,15 +1,22 @@
 import React from 'react';
 import Differences from '../containers/DifferencesContainer';
 
-const LineItemsComponent = ({ LineItems }) => (
-    <div>
+const LineItemsComponent = ({ LineItems }) => ( 
+    <tbody>
         {LineItems.map(item =>
-            <div key={item.id}>
-                <strong key={item.id}>{item.name}</strong>
-                <Differences LineItemId={item.id} />
-            </div>
+            <tbody key={item.id}>
+            <tr>
+                <th className="col-xs-7">{item.name}</th>
+                <th className="col-xs-1"></th>
+                <th className="col-xs-1"></th>
+                <th className="col-xs-1">{item.subtotal_difference}</th>
+                <th className="col-xs-1">{item.subtotal_pl_true_up}</th>
+                <th className="col-xs-1">{item.subtotal_pl_movement}</th>
+            </tr>
+            <Differences LineItemId={item.id} />
+            </tbody>
         )}
-    </div>
+    </tbody>
 );
 
 export default LineItemsComponent;
