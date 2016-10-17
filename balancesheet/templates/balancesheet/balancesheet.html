@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Bilanz{% endblock %}
+{% block content %}
+    <div id="root"></div>
+    <script type="text/javascript">
+        providedLineItems = {{ line_items|safe }};
+        providedDifferences = {{ differences|safe }};
+    </script>
+    <script src="{% static 'build/static/js/main.js' %}"></script>
+{% endblock %}

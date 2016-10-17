@@ -1,0 +1,9 @@
+# Calculus/db.py
+*.pyc
+balancesheet/static/node_modules/
+balancesheet/static/build/
+balancesheet/static/.idea/
+balancesheet/__pycache__/
+core/__pycache__/
+Calculus/__pycache__/
+.idea/
