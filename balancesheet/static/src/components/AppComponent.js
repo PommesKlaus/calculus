@@ -4,7 +4,7 @@ import BalanceSheetContainer from '../containers/BalanceSheetContainer';
 class App extends React.Component {
     render() {
         return (
-            <div className="container">
+            <div className="container-fluid">
                 <h1>Bilanz</h1>
                 <BalanceSheetContainer />
             </div>);
