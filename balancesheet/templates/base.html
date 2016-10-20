@@ -10,18 +10,35 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap-theme.min.css">
     <style type="text/css">
         
-         .balancesheet td, .balancesheet th {
-            min-width: 135px;
-            text-align: right;
+        th {
+            text-align: center;
+            padding: 15px;
+            font-size: 1.2em;
+            background-color: #1565c0;
+            color: #FFFFFF;
         }
         
-        .balancesheet heading {
-            text-align: center;
+         .balancesheet td {
+            min-width: 135px;
+            text-align: right;
+            font-size: 0.9em;
+            font-family: Monospace;
+        }
+        
+        .subtotal {
+            font-weight: bold;
+            background-color: #bbdefb;
         }
         
         .balancesheet .line-label {
             text-align: left;
+            font-family: sans-serif;
         }
+        
+        .bs_dif {
+            margin-left: 20px;
+        }
+
         
     </style>
     <title>Taxant Calculus - {% block title %}{% endblock %}</title>

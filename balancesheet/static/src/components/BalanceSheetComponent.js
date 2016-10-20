@@ -3,27 +3,29 @@ import React from 'react';
 const BalanceSheetComponent = ({ LineItems, Differences }) => ( 
     <table className="table table-hover table-condensed table-bordered balancesheet">
         <thead>
-            <th className="heading"></th>
-            <th className="heading">Local</th>
-            <th className="heading">Tax</th>
-            <th className="heading">Differenz</th>
-            <th className="heading">Matching</th>
-            <th className="heading">Gewinnauswirkung</th>
+            <tr>
+                <th></th>
+                <th>Local</th>
+                <th>Tax</th>
+                <th>Differenz</th>
+                <th>Matching</th>
+                <th>Gewinn</th>
+            </tr>
         </thead>
         
             {LineItems.map(item =>
             <tbody>
                 <tr key={item.id}>
-                    <th className="line-label">{item.name}</th>
-                    <th></th>
-                    <th></th>
-                    <th>{item.subtotal_difference}</th>
-                    <th>{item.subtotal_pl_true_up}</th>
-                    <th>{item.subtotal_pl_movement}</th>
+                    <td className="line-label subtotal">{item.name}</td>
+                    <td className="subtotal"></td>
+                    <td className="subtotal"></td>
+                    <td className="subtotal">{item.subtotal_difference}</td>
+                    <td className="subtotal">{item.subtotal_pl_true_up}</td>
+                    <td className="subtotal">{item.subtotal_pl_movement}</td>
                 </tr>
                 {Differences.filter((x) => {return x.bs_line_item_id === item.id}).map(dif =>
                     <tr key={dif.id}>
-                        <td className="line-label">{dif.name}</td>
+                        <td className="line-label"><div className="bs_dif">{dif.name}</div></td>
                         <td>{dif.local_gaap}</td>
                         <td>{dif.tax_gaap}</td>
                         <td>{dif.difference}</td>
