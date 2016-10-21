@@ -1,6 +1,6 @@
 import React from 'react';
 import Numeral from 'numeral';
-import language from 'numeral/min/languages.min';
+//import language from 'numeral/min/languages.min';
 
 Numeral.language('de', {
     delimiters: {
