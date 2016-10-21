@@ -18,10 +18,8 @@ const AddDifferenceComponent = React.createClass({
   render() {
     return (
       <div>
-        <td className="balance-sheet-icon-col subtotal">
-            <Button bsSize="xsmall" onClick={this.open}>+</Button>
-        </td>
         
+        <Button bsSize="xsmall" onClick={this.open}>+</Button>        
 
         <Modal show={this.state.showModal} onHide={this.close}>
           <Modal.Header closeButton>

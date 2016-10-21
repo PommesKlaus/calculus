@@ -38,7 +38,7 @@ const BalanceSheetComponent = ({ LineItems, Differences, dispatch }) => (
             {LineItems.map(item =>
             <tbody>
                 <tr key={item.id}>
-                    <AddDifferenceComponent />
+                    <td className="balance-sheet-icon-col subtotal"><AddDifferenceComponent /></td>
                     <td className="line-label subtotal">{item.name}</td>
                     <td className="subtotal"></td>
                     <td className="subtotal"></td>
