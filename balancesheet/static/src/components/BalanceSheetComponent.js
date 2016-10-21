@@ -1,6 +1,6 @@
 import React from 'react';
 import Numeral from 'numeral';
-//import language from 'numeral/min/languages.min';
+import AddDifferenceComponent from './AddDifferenceComponent';
 
 Numeral.language('de', {
     delimiters: {
@@ -22,10 +22,11 @@ Numeral.language('de', {
 });
 Numeral.language('de');
 
-const BalanceSheetComponent = ({ LineItems, Differences }) => ( 
+const BalanceSheetComponent = ({ LineItems, Differences, dispatch }) => (
     <table className="table table-hover table-condensed table-bordered balancesheet">
         <thead>
             <tr>
+                <th className="balance-sheet-icon-col"></th>
                 <th></th>
                 <th>Local</th>
                 <th>Tax</th>
@@ -34,10 +35,10 @@ const BalanceSheetComponent = ({ LineItems, Differences }) => (
                 <th>Gewinn</th>
             </tr>
         </thead>
-        
             {LineItems.map(item =>
             <tbody>
                 <tr key={item.id}>
+                    <AddDifferenceComponent />
                     <td className="line-label subtotal">{item.name}</td>
                     <td className="subtotal"></td>
                     <td className="subtotal"></td>
@@ -47,6 +48,7 @@ const BalanceSheetComponent = ({ LineItems, Differences }) => (
                 </tr>
                 {Differences.filter((x) => {return x.bs_line_item_id === item.id}).map(dif =>
                     <tr key={dif.id}>
+                        <td className="balance-sheet-icon-col"></td>
                         <td className="line-label"><div className="bs_dif">{dif.name}</div></td>
                         <td>{Numeral(dif.local_gaap).format('0,0.00')}</td>
                         <td>{Numeral(dif.tax_gaap).format('0,0.00')}</td>
@@ -61,6 +63,3 @@ const BalanceSheetComponent = ({ LineItems, Differences }) => (
 );
 
 export default BalanceSheetComponent;
-
-
-
