@@ -1,5 +1,3 @@
-
-
 const LineItems = (state=providedLineItems, action) => {
     switch (action.type) {
         default:

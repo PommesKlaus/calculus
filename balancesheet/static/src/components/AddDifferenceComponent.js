@@ -1,48 +1,77 @@
 import React from 'react';
 import Numeral from 'numeral';
-import { Modal, Button, Popover, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { Modal, Button, OverlayTrigger, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
 const AddDifferenceComponent = React.createClass({
-  getInitialState() {
-    return { showModal: false };
-  },
 
   close() {
-    this.setState({ showModal: false });
+    this.props.hideModal();
   },
 
-  open() {
-    this.setState({ showModal: true });
+  lineItem() {
+    return (this.props.AddToLineItem!==null ? this.props.LineItems.find((x) => x.id===this.props.AddToLineItem).name : this.props.LineItems[0]);
   },
 
   render() {
     return (
       <div>
-        
-        <Button bsSize="xsmall" onClick={this.open}>+</Button>        
 
-        <Modal show={this.state.showModal} onHide={this.close}>
-          <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <h4>Text in a modal</h4>
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+        <Modal show={this.props.AddToLineItem!=null} onHide={this.close}>
+          <form>
+            <Modal.Header closeButton>
+              <Modal.Title>Neue HB/StB-Abweichung hinzufügen</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div className="container-fluid">
+                <input type="hidden" name="version_id" value="" />
 
-            <h4>Overflowing text to show scroll behavior</h4>
-            <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-            <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-            <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-            <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={this.close}>Close</Button>
-          </Modal.Footer>
+                <div className="col-md-12">
+                  <FormGroup controlId="bs_line_item_id">
+                    <ControlLabel>Bilanzposition</ControlLabel>
+                    <FormControl componentClass="select">
+                      {this.props.LineItems.map(item =>
+                        <option value={item.id} selected={item.id===this.props.AddToLineItem ? "selected" : ""}>{item.name}</option>
+                      )}
+                    </FormControl>
+                  </FormGroup>
+                </div>
+
+                <div className="col-md-12">
+                  <FormGroup controlId="name">
+                    <ControlLabel>Bezeichnung der HB/StB-Abweichung</ControlLabel>
+                    <FormControl type="text" />
+                  </FormGroup>
+                </div>
+
+                <div className="col-md-6">
+                  <FormGroup controlId="local_gaap">
+                    <ControlLabel>Local (HGB-Buchwert)</ControlLabel>
+                    <FormControl type="text" />
+                  </FormGroup>
+                </div>
+
+                <div className="col-md-6">
+                  <FormGroup controlId="tax_gaap">
+                    <ControlLabel>Tax (StB-Buchwert)</ControlLabel>
+                    <FormControl type="text" />
+                  </FormGroup>
+                </div>
+
+                <div className="col-md-12">
+                  <FormGroup controlId="comment">
+                    <ControlLabel>Kommentar</ControlLabel>
+                    <FormControl componentClass="textarea" placeholder="Kurze Beschreibung zur abweichenden Behandlung in der Steuerbilanz" />
+                  </FormGroup>            
+                </div>
+                
+              </div>
+
+            </Modal.Body>
+            <Modal.Footer>
+              <Button type="submit">Speichern</Button>
+              <Button onClick={this.close}>Close</Button>
+            </Modal.Footer>
+          </form>
         </Modal>
       </div>
     );

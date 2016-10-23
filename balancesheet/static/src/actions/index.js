@@ -1,9 +1,14 @@
 
-export const add_todo = (text) => {
+export const showAddDifferenceModal = (id) => {
     return ({
-        type: "ADD_TODO",
-        id: nextTodoId++,
-        text: text
+        type: "SHOW_ADD_DIFFERENCE_MODAL",
+        id: id
+    })
+};
+
+export const hideAddDifferenceModal = () => {
+    return ({
+        type: "HIDE_ADD_DIFFERENCE_MODAL"
     })
 };
 
