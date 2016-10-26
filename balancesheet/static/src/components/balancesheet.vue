@@ -1,9 +1,9 @@
 <template>
   <div>
-    <table className="table table-hover table-condensed table-bordered balancesheet">
+    <table class="table table-hover table-condensed table-bordered balancesheet">
       <thead>
         <tr>
-          <th className="balance-sheet-icon-col"></th>
+          <th class="balance-sheet-icon-col"></th>
           <th></th>
           <th>Local</th>
           <th>Tax</th>
