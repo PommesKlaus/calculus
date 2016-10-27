@@ -1,10 +1,23 @@
 import VueRouter from 'vue-router'
-import TestComponent from './components/test1.vue'
 import BalanceSheet from './components/balancesheet.vue'
+import Details from './components/details.vue'
 
 const routes = [
-  { path: '/foo', component: TestComponent },
-  { path: '/', component: BalanceSheet }
+  { 
+    path: '/', 
+    name: 'balancesheet',
+    component: BalanceSheet 
+  },
+  { 
+    path: '/neu', 
+    name: 'differenceNew',
+    component: Details 
+  },
+  { 
+    path: '/details/:differenceId', 
+    name: 'differenceDetails',
+    component: Details 
+  }  
 ]
 
 const router = new VueRouter({

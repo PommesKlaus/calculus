@@ -6,13 +6,10 @@
 </template>
 
 <script>
-//import BalanceSheet from './components/balancesheet.vue';
-
 export default {
   name: 'app',
   data () {
-    return {
-      
+    return {      
     }
   }
 }

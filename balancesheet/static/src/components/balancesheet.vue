@@ -25,7 +25,9 @@
        
         <tr v-for="dif in filteredDifferences(item.id, Differences)">
           <td class="balance-sheet-icon-col"></td>
-          <td class="line-label"><div class="bs_dif">{{ dif.name }}</div></td>
+          <td class="line-label"><div class="bs_dif">
+            <router-link :to="{ name: 'differenceDetails', params: {differenceId: dif.id}}" >{{ dif.name }}</router-link>
+            </div></td>
           <td>{{ dif.local_gaap }}</td>
           <td>{{ dif.tax_gaap }}</td>
           <td>{{ dif.difference }}</td>
