@@ -1,22 +1,17 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import App from './App.vue'
-import TestComponent from './components/test1.vue'
-import BalanceSheet from './components/balancesheet.vue'
 
+//Vue.use(Vuex)
 Vue.use(VueRouter)
 
-const routes = [
-  { path: '/foo', component: TestComponent },
-  { path: '/', component: BalanceSheet }
-]
-
-const router = new VueRouter({
-  routes
-})
+import router from './routes'
+import store from './store'
+import App from './App.vue'
 
 new Vue({
   router,
+  store,
   el: '#app',
   render: h => h(App)
 })
