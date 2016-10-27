@@ -2,10 +2,10 @@
 {% load staticfiles %}
 {% block title %}Bilanz{% endblock %}
 {% block content %}
-    <div id="root"></div>
+    <div id="app"></div>
     <script type="text/javascript">
         providedLineItems = {{ line_items|safe }};
         providedDifferences = {{ differences|safe }};
     </script>
-    <script src="{% static 'build/static/js/main.js' %}"></script>
+    <script src="{% static 'dist/build.js' %}"></script>
 {% endblock %}
