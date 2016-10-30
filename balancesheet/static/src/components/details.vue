@@ -26,7 +26,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td><input v-model.lazy="formData.local_gaap" class="form-control input-sm"></td>
+            <td><input v-model="formData.local_gaap" class="form-control"></td>
           </tr>
           <tr>
             <td>Tax GAAP</td>
@@ -34,7 +34,7 @@
             <td></td>
             <td></td>
             <td></td>
-            <td><input v-model="formData.tax_gaap" class="form-control input-sm"></td>
+            <td><input v-model="formData.tax_gaap" class="form-control"></td>
           </tr>
           <tr>
             <td>Differenz</td>
@@ -42,16 +42,19 @@
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
+            <td>{{ formData.difference }}</td>
           </tr>
         </tbody>
       </table>
+      <button type="submit">Speichern</button>
     </form>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import * as types from '../store/mutation-types'
+
 module.exports = {
   data: function() {
     return {
@@ -59,21 +62,21 @@ module.exports = {
     }
   },
   methods: {
-    onSubmit () {
-      return
+    onSubmit (e) {
+      return this.$store.dispatch('updateDetails', {difference: this.difference, formData: this.formData})
     }
   },
   computed: {
-    Difference () {
+    difference () {
         let r = this.$route.params.differenceId
         return this.$store.state.Differences.find(function(x) { return x.id == r })
     },
-    LineItems() { return this.$store.state.LineItems }
+    lineItems() { return this.$store.state.LineItems }
   },
   created() {
     // Copy difference-data from state to be used as form model.
     // Changes are only merged to state/store if form is submitted.
-    this.formData = Object.assign({}, this.Difference)
+    this.formData = Object.assign({}, this.difference)
   }
 }
 </script>

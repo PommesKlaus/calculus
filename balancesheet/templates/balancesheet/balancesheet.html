@@ -6,6 +6,8 @@
     <script type="text/javascript">
         providedLineItems = {{ line_items|safe }};
         providedDifferences = {{ differences|safe }};
+        providedVersion = {{ version }};
+        providedDetailURL = "{% url 'balancesheet_api:difference' %}";
     </script>
     <script src="{% static 'dist/build.js' %}"></script>
 {% endblock %}

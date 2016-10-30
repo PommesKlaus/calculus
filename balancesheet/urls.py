@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from .views import balancesheet
+from .views import balancesheet, difference
 
 urlpatterns = [
     url(r'^$', balancesheet.BalanceSheetView.as_view(), name='balancesheet'),
