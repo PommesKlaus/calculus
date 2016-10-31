@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container-fluid">
-    <h1>Übersicht steuerbilanzielle Abweichungen</h1>
+    <h1>Übersicht steuerbilanzielle Abweichungen <span v-if="Status > 0"><img src="./assets/ajax-loader.gif"></span></h1>
     <router-view></router-view>
   </div>
 </template>
@@ -9,7 +9,11 @@
 export default {
   name: 'app',
   data () {
-    return {      
+    return {}
+  },
+  computed: {
+    Status () {
+      return this.$store.state.Status
     }
   }
 }
