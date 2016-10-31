@@ -37,19 +37,21 @@ class DifferenceView(View):
     def put(self, request, *args, **kwargs):
         # Update Difference and return calculated Difference and Line Item
         r = json.loads(request.body.decode('utf-8'))
-        d = Difference.objects.get(pk=int(r['id']))
+        difference = Difference.objects.get(pk=int(r['id']))
         del r['id']
         for key, value in r.items():
             if key not in ['comment']:
-                setattr(d, key, Decimal(value))
+                setattr(difference, key, Decimal(value))
             else:
-                setattr(d, key, value)
+                setattr(difference, key, value)
         try:
-            d.save()
-            pdb.set_trace()
+            difference.save()
+            difference_formatted = vars(difference)
+            del(difference_formatted['_state'])
+
             return JsonResponse({
                 'line_item': 'OPEN',
-                'difference': json.dumps(d, cls=DjangoJSONEncoder)
+                'difference': json.dumps(difference_formatted, cls=DjangoJSONEncoder)
             })
         except Exception as e:
             return HttpResponseBadRequest(str(e))
