@@ -34,6 +34,7 @@ class Difference(models.Model):
     pl_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
     oci_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
     temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
+    pl = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
     oci = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
 
     py_local_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
@@ -45,6 +46,7 @@ class Difference(models.Model):
     py_pl_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
     py_oci_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
     py_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
+    py_pl = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
     py_oci = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
 
     tu_local_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
@@ -56,10 +58,13 @@ class Difference(models.Model):
     tu_pl_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
     tu_oci_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
     tu_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
+    tu_pl = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
     tu_oci = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
 
     pl_true_up = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
+    oci_true_up = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
     pl_movement = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
+    oci_movement = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
 
     class Meta:
         # unique_together = ('name', 'version', 'bs_line_item')
@@ -74,8 +79,11 @@ class Difference(models.Model):
         self.difference = self.tax_gaap - self.local_gaap
         self.permanent = self.pl_permanent + self.oci_permanent
         self.temporary = self.difference - self.permanent
-        self.pl_temporary = self.temporary - self.pl_permanent
         self.oci = self.oci_permanent + self.oci_temporary
-        self.pl_true_up = self.tu_pl_permanent + self.tu_pl_temporary - self.py_pl_permanent - self.py_pl_temporary
-        self.pl_movement = self.pl_permanent + self.pl_temporary - self.tu_pl_permanent - self.tu_pl_temporary
+        self.pl_temporary = self.difference - self.oci - self.pl_permanent
+        self.pl = self.pl_temporary + self.pl_permanent
+        self.pl_true_up = self.tu_pl - self.py_pl
+        self.oci_true_up = self.tu_oci - self.py_oci
+        self.pl_movement = self.pl - self.tu_pl
+        self.oci_movement = self.oci - self.tu_oci
         super(Difference, self).save(*args, **kwargs)
