@@ -50,6 +50,7 @@ import * as types from './mutation-types'
 
 export const mutations = {
     [types.UPDATE_DETAILS] (state, payload) {
-        Object.assign(payload.difference, payload.formData)
+        Object.assign(payload.difference, JSON.parse(payload.response.difference))
+        Object.assign(payload.formData, JSON.parse(payload.response.difference))
     }
 }

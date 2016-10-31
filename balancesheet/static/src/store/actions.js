@@ -12,10 +12,9 @@ export default {
             oci_permanent: (parseFloat(payload.formData.oci_permanent) || 0).toFixed(2),
             oci_temporary: (parseFloat(payload.formData.oci_temporary) || 0).toFixed(2)
         }
-        console.log(data)
         Vue.http.put(providedDetailURL + payload.formData.id, data)
         .then((response) => {
-            console.log("SUCCESS", response)
+            payload['response'] = response.body
             commit(types.UPDATE_DETAILS, payload)
         }, (response) => {
             console.log("ERROR", response)
