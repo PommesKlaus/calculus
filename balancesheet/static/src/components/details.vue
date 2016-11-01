@@ -43,7 +43,7 @@
             <td></td>
             <td>{{ formData.tu_difference }}</td>
             <td></td>
-            <td>{{ formData.difference | num }}</td>
+            <td>{{ formData.difference }}</td>
           </tr>
         </tbody>
       </table>

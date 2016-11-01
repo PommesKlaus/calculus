@@ -19,7 +19,3 @@ new Vue({
 })
 
 Vue.http.headers.common['X-CSRFToken'] = Cookies.get('csrftoken')
-
-Vue.filter('num', function (value) {
-  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-})

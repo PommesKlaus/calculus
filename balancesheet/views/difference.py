@@ -1,31 +1,20 @@
 import json
 from decimal import Decimal
+from babel.numbers import parse_decimal
+
 from django.shortcuts import render
 from django.views import View
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Sum
+
 from ..models import Difference, BsLineItem
+from Calculus.settings import LANGUAGE_CODE
+from core.core_functions import format_dict_decimal2string, format_list_decimal2string
 import pdb
 
 
 class DifferenceView(View):
-
-    # def get(self, request, *args, **kwargs):
-    #     # bs_structure = BsLineItem.objects.all().values()
-    #     bs_structure = BsLineItem.objects.annotate(
-    #         subtotal_difference=Sum('difference__difference'),
-    #         subtotal_temporary=Sum('difference__temporary'),
-    #         subtotal_pl_true_up=Sum('difference__pl_true_up'),
-    #         subtotal_pl_movement=Sum('difference__pl_movement')
-    #     ).values()
-    #     differences = Difference.objects.filter(version_id=self.kwargs['version_id']).values()
-    #
-    #     return render(request, self.template_name, {
-    #         'line_items': json.dumps(list(bs_structure), cls=DjangoJSONEncoder),
-    #         'differences': json.dumps(list(differences), cls=DjangoJSONEncoder),
-    #         'version': self.kwargs['version_id']
-    #     })
 
     def post(self, request, *args, **kwargs):
         # Create new Difference and return calculated Difference and Line Item
@@ -41,17 +30,22 @@ class DifferenceView(View):
         del r['id']
         for key, value in r.items():
             if key not in ['comment']:
-                setattr(difference, key, Decimal(value))
+                setattr(difference, key, parse_decimal(value, locale=LANGUAGE_CODE[:2]))
             else:
                 setattr(difference, key, value)
         try:
             difference.save()
-            difference_formatted = vars(difference)
-            del(difference_formatted['_state'])
 
+            line_item = BsLineItem.objects.filter(pk=difference.bs_line_item_id).annotate(
+                subtotal_difference=Sum('difference__difference'),
+                subtotal_temporary=Sum('difference__temporary'),
+                subtotal_pl_true_up=Sum('difference__pl_true_up'),
+                subtotal_pl_movement=Sum('difference__pl_movement')
+            )
             return JsonResponse({
-                'line_item': 'OPEN',
-                'difference': json.dumps(difference_formatted, cls=DjangoJSONEncoder)
+                'line_item': json.dumps(format_list_decimal2string(line_item)[0], cls=DjangoJSONEncoder),
+                'difference': json.dumps(format_dict_decimal2string(difference), cls=DjangoJSONEncoder)
             })
+
         except Exception as e:
             return HttpResponseBadRequest(str(e))

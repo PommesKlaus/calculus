@@ -6,11 +6,11 @@ export default {
         let data = {
             id: payload.formData.id,
             comment: payload.formData.comment,
-            local_gaap: (parseFloat(payload.formData.local_gaap) || 0).toFixed(2),
-            tax_gaap: (parseFloat(payload.formData.tax_gaap) || 0).toFixed(2),
-            pl_permanent: (parseFloat(payload.formData.pl_permanent) || 0).toFixed(2),
-            oci_permanent: (parseFloat(payload.formData.oci_permanent) || 0).toFixed(2),
-            oci_temporary: (parseFloat(payload.formData.oci_temporary) || 0).toFixed(2)
+            local_gaap: payload.formData.local_gaap,
+            tax_gaap: payload.formData.tax_gaap,
+            pl_permanent: payload.formData.pl_permanent,
+            oci_permanent: payload.formData.oci_permanent,
+            oci_temporary: payload.formData.oci_temporary
         }
         
         commit(types.STATUS_START)
