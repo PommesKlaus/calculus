@@ -20,5 +20,7 @@ export default {
 </script>
 
 <style>
-
+.form-control:invalid {
+  border: 3px solid #f44336;
+}
 </style>

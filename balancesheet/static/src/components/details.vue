@@ -27,7 +27,7 @@
             <td></td>
             <td>{{ formData.tu_local_gaap }}</td>
             <td></td>
-            <td><input v-model="formData.local_gaap" class="form-control" pattern="^-?(\d{1,3}|\d+(\,\d{0,2})?$)(?:\.\d{3})*(\,\d{0,2})?$"></td>
+            <td><input v-model="formData.local_gaap" class="form-control" pattern="^[-]?[1-9]((\d+([,]\d{0,2})?$)|(\d{0,2}(?:\.\d{3})*([,]\d{0,2})?))$"></td>
           </tr>
           <tr>
             <td>Tax GAAP</td>
@@ -35,7 +35,7 @@
             <td></td>
             <td>{{ formData.tu_tax_gaap }}</td>
             <td></td>
-            <td><input v-model="formData.tax_gaap" class="form-control" pattern="^-?(\d{1,3}|\d+(\,\d{0,2})?$)(?:\.\d{3})*(\,\d{0,2})?$"></td>
+            <td><input v-model="formData.tax_gaap" class="form-control" pattern="^[-]?[1-9]((\d+([,]\d{0,2})?$)|(\d{0,2}(?:\.\d{3})*([,]\d{0,2})?))$"></td>
           </tr>
           <tr>
             <td>Differenz</td>
@@ -75,7 +75,7 @@
             <td></td>
             <td>{{ formData.tu_pl_permanent }}</td>
             <td></td>
-            <td><input v-model="formData.pl_permanent" class="form-control" pattern="^-?(\d{1,3}|\d+(\,\d{0,2})?$)(?:\.\d{3})*(\,\d{0,2})?$"></td>
+            <td><input v-model="formData.pl_permanent" class="form-control" pattern="^[-]?[1-9]((\d+([,]\d{0,2})?$)|(\d{0,2}(?:\.\d{3})*([,]\d{0,2})?))$"></td>
           </tr>
         </tbody>
         <tfoot>
@@ -109,7 +109,7 @@
             <td></td>
             <td>{{ formData.tu_oci_temporary }}</td>
             <td></td>
-            <td><input v-model="formData.oci_temporary" class="form-control" pattern="^-?(\d{1,3}|\d+(\,\d{0,2})?$)(?:\.\d{3})*(\,\d{0,2})?$"></td>
+            <td><input v-model="formData.oci_temporary" class="form-control" pattern="^[-]?[1-9]((\d+([,]\d{0,2})?$)|(\d{0,2}(?:\.\d{3})*([,]\d{0,2})?))$"></td>
           </tr>
           <tr>
             <td>permanent</td>
@@ -117,7 +117,7 @@
             <td></td>
             <td>{{ formData.tu_oci_permanent }}</td>
             <td></td>
-            <td><input v-model="formData.oci_permanent" class="form-control" pattern="^-?(\d{1,3}|\d+(\,\d{0,2})?$)(?:\.\d{3})*(\,\d{0,2})?$"></td>
+            <td><input v-model="formData.oci_permanent" class="form-control" pattern="^[-]?[1-9]((\d+([,]\d{0,2})?$)|(\d{0,2}(?:\.\d{3})*([,]\d{0,2})?))$"></td>
           </tr>
         </tbody>
         <tfoot>
@@ -158,8 +158,58 @@ module.exports = {
   },
   computed: {
     difference () {
-        let r = this.$route.params.differenceId
-        return this.$store.state.Differences.find(function(x) { return x.id == r })
+        let r = this.$route.params.differenceId || null
+        if (r is null) {
+          return {
+            name: "",
+            comment: "",
+            bs_line_item_id: xxx
+            version_id: this.$store.state.Version.id,
+
+            local_gaap: "0,00",
+            tax_gaap: "0,00",
+            difference: "0,00",
+            pl_permanent: "0,00",
+            oci_permanent: "0,00",
+            permanent: "0,00",
+            pl_temporary: "0,00",
+            oci_temporary: "0,00",
+            temporary: "0,00",
+            pl: "0,00",
+            oci: "0,00",
+
+            py_local_gaap: "0,00",
+            py_tax_gaap: "0,00",
+            py_difference: "0,00",
+            py_pl_permanent: "0,00",
+            py_oci_permanent: "0,00",
+            py_permanent: "0,00",
+            py_pl_temporary: "0,00",
+            py_oci_temporary: "0,00",
+            py_temporary: "0,00",
+            py_pl: "0,00",
+            py_oci: "0,00",
+
+            tu_local_gaap: "0,00",
+            tu_tax_gaap: "0,00",
+            tu_difference: "0,00",
+            tu_pl_permanent: "0,00",
+            tu_oci_permanent: "0,00",
+            tu_permanent: "0,00",
+            tu_pl_temporary: "0,00",
+            tu_oci_temporary: "0,00",
+            tu_temporary: "0,00",
+            tu_pl: "0,00",
+            tu_oci: "0,00",
+
+            pl_true_up: "0,00",
+            oci_true_up: "0,00",
+            pl_movement: "0,00",
+            oci_movement: "0,00",
+          }
+        } else {
+          return this.$store.state.Differences.find(function(x) { return x.id == r })
+        }
     },
     lineItems() { return this.$store.state.LineItems },
     version() { return this.$store.state.Version }
@@ -183,9 +233,5 @@ td:nth-child(n+2) {
 
 td:nth-child(n+2) input {
   text-align: right;
-}
-
-.form-control:invalid {
-  border: 3px solid #f44336;
 }
 </style>
