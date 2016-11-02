@@ -13,11 +13,11 @@
         <thead>
           <tr>
             <th class="col-md-2"></th>
-            <th class="col-md-2">Vorperiode</th>
+            <th class="col-md-2">{{ version.py_year }}<br />{{ version.py_shortname }}</th>
             <th class="col-md-2"></th>
-            <th class="col-md-2">Matching Vorperiode</th>
+            <th class="col-md-2">{{ version.tu_year }}<br />{{ version.tu_shortname }}</th>
             <th class="col-md-2"></th>
-            <th class="col-md-2">lfd. Periode</th>
+            <th class="col-md-2">{{ version.year }}<br />{{ version.shortname }}</th>
           </tr>
         </thead>
         <tbody>
@@ -27,7 +27,7 @@
             <td></td>
             <td>{{ formData.tu_local_gaap }}</td>
             <td></td>
-            <td><input v-model="formData.local_gaap" class="form-control"></td>
+            <td><input v-model="formData.local_gaap" class="form-control" pattern="^-?(\d{1,3}|\d+(\,\d{0,2})?$)(?:\.\d{3})*(\,\d{0,2})?$"></td>
           </tr>
           <tr>
             <td>Tax GAAP</td>
@@ -35,7 +35,7 @@
             <td></td>
             <td>{{ formData.tu_tax_gaap }}</td>
             <td></td>
-            <td><input v-model="formData.tax_gaap" class="form-control"></td>
+            <td><input v-model="formData.tax_gaap" class="form-control" pattern="^-?(\d{1,3}|\d+(\,\d{0,2})?$)(?:\.\d{3})*(\,\d{0,2})?$"></td>
           </tr>
           <tr>
             <td>Differenz</td>
@@ -53,11 +53,11 @@
         <thead>
           <tr>
             <th class="col-md-2"></th>
-            <th class="col-md-2">Vorperiode</th>
+            <th class="col-md-2">{{ version.py_year }}<br />{{ version.py_shortname }}</th>
             <th class="col-md-2">Matching</th>
-            <th class="col-md-2">Matching Vorperiode</th>
+            <th class="col-md-2">{{ version.tu_year }}<br />{{ version.tu_shortname }}</th>
             <th class="col-md-2">Gewinnauswirkung</th>
-            <th class="col-md-2">lfd. Periode</th>
+            <th class="col-md-2">{{ version.year }}<br />{{ version.shortname }}</th>
           </tr>
         </thead>
         <tbody>
@@ -75,7 +75,7 @@
             <td></td>
             <td>{{ formData.tu_pl_permanent }}</td>
             <td></td>
-            <td><input v-model="formData.pl_permanent" class="form-control"></td>
+            <td><input v-model="formData.pl_permanent" class="form-control" pattern="^-?(\d{1,3}|\d+(\,\d{0,2})?$)(?:\.\d{3})*(\,\d{0,2})?$"></td>
           </tr>
         </tbody>
         <tfoot>
@@ -95,11 +95,11 @@
         <thead>
           <tr>
             <th class="col-md-2"></th>
-            <th class="col-md-2">Vorperiode</th>
+            <th class="col-md-2">{{ version.py_year }}<br />{{ version.py_shortname }}</th>
             <th class="col-md-2">Matching</th>
-            <th class="col-md-2">Matching Vorperiode</th>
+            <th class="col-md-2">{{ version.tu_year }}<br />{{ version.tu_shortname }}</th>
             <th class="col-md-2">Gewinnauswirkung</th>
-            <th class="col-md-2">lfd. Periode</th>
+            <th class="col-md-2">{{ version.year }}<br />{{ version.shortname }}</th>
           </tr>
         </thead>
         <tbody>
@@ -109,7 +109,7 @@
             <td></td>
             <td>{{ formData.tu_oci_temporary }}</td>
             <td></td>
-            <td><input v-model="formData.oci_temporary" class="form-control"></td>
+            <td><input v-model="formData.oci_temporary" class="form-control" pattern="^-?(\d{1,3}|\d+(\,\d{0,2})?$)(?:\.\d{3})*(\,\d{0,2})?$"></td>
           </tr>
           <tr>
             <td>permanent</td>
@@ -117,7 +117,7 @@
             <td></td>
             <td>{{ formData.tu_oci_permanent }}</td>
             <td></td>
-            <td><input v-model="formData.oci_permanent" class="form-control"></td>
+            <td><input v-model="formData.oci_permanent" class="form-control" pattern="^-?(\d{1,3}|\d+(\,\d{0,2})?$)(?:\.\d{3})*(\,\d{0,2})?$"></td>
           </tr>
         </tbody>
         <tfoot>
@@ -161,7 +161,8 @@ module.exports = {
         let r = this.$route.params.differenceId
         return this.$store.state.Differences.find(function(x) { return x.id == r })
     },
-    lineItems() { return this.$store.state.LineItems }
+    lineItems() { return this.$store.state.LineItems },
+    version() { return this.$store.state.Version }
   },
   created() {
     // Copy difference-data from state to be used as form model.
@@ -182,5 +183,9 @@ td:nth-child(n+2) {
 
 td:nth-child(n+2) input {
   text-align: right;
+}
+
+.form-control:invalid {
+  border: 3px solid #f44336;
 }
 </style>

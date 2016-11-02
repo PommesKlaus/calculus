@@ -1,5 +1,10 @@
 <template>
   <div>
+    <p>
+      Vorjahr: {{ Version.py_year }}, {{ Version.py_name }} ({{ Version.py_shortname }})<br />
+      Matching: {{ Version.tu_year }}, {{ Version.tu_name }} ({{ Version.tu_shortname }})<br />
+      lfd. jahr: {{ Version.year }}, {{ Version.name }} ({{ Version.shortname }})
+    </p>
     <table class="table table-hover table-condensed table-bordered balancesheet">
       <thead>
         <tr>
@@ -54,7 +59,8 @@ module.exports = {
   },
   computed: mapState([
     'Differences',
-    'LineItems'
+    'LineItems',
+    'Version'
   ])
 }
 </script>
