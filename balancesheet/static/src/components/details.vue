@@ -9,7 +9,7 @@
             {{ item.name }}
           </option>
         </select>
-        {{ lineItem().name }}
+        {{ lineItem.name }}
       </div>
   
       <div class="col-md-2">Sachverhalt:</div>
@@ -165,80 +165,80 @@ module.exports = {
     onSubmit (e) {
       let r = this.$route.params.differenceId || null
       if (r === null) {
-        return this.$store.dispatch('newDifference', {difference: this.difference, formData: this.formData})
+        return this.$store.dispatch('newDifference', {difference: this.difference, lineItem: this.lineItem, formData: this.formData})
       } else {
-        return this.$store.dispatch('updateDifference', {difference: this.difference, formData: this.formData})
+        return this.$store.dispatch('updateDifference', {difference: this.difference, lineItem: this.lineItem, formData: this.formData})
       }
     },
-        difference () {
-        let r = this.$route.params.differenceId || null
-        if (r === null) {
-          return {
-            name: "",
-            comment: "",
-            bs_line_item_id: null,
-            version_id: this.$store.state.Version.id,
+    makeForm() {
+      this.formData = Object.assign({}, this.difference)
+    }
+  },
+  computed: {
+    lineItems() { return this.$store.state.LineItems },
+    version() { return this.$store.state.Version },
+    difference () {
+      let r = this.$route.params.differenceId || null
+      if (r === null) {
+        return {
+          name: "",
+          comment: "",
+          bs_line_item_id: null,
+          version_id: this.$store.state.Version.id,
 
-            local_gaap: "0,00",
-            tax_gaap: "0,00",
-            difference: "0,00",
-            pl_permanent: "0,00",
-            oci_permanent: "0,00",
-            permanent: "0,00",
-            pl_temporary: "0,00",
-            oci_temporary: "0,00",
-            temporary: "0,00",
-            pl: "0,00",
-            oci: "0,00",
+          local_gaap: "0,00",
+          tax_gaap: "0,00",
+          difference: "0,00",
+          pl_permanent: "0,00",
+          oci_permanent: "0,00",
+          permanent: "0,00",
+          pl_temporary: "0,00",
+          oci_temporary: "0,00",
+          temporary: "0,00",
+          pl: "0,00",
+          oci: "0,00",
 
-            py_local_gaap: "0,00",
-            py_tax_gaap: "0,00",
-            py_difference: "0,00",
-            py_pl_permanent: "0,00",
-            py_oci_permanent: "0,00",
-            py_permanent: "0,00",
-            py_pl_temporary: "0,00",
-            py_oci_temporary: "0,00",
-            py_temporary: "0,00",
-            py_pl: "0,00",
-            py_oci: "0,00",
+          py_local_gaap: "0,00",
+          py_tax_gaap: "0,00",
+          py_difference: "0,00",
+          py_pl_permanent: "0,00",
+          py_oci_permanent: "0,00",
+          py_permanent: "0,00",
+          py_pl_temporary: "0,00",
+          py_oci_temporary: "0,00",
+          py_temporary: "0,00",
+          py_pl: "0,00",
+          py_oci: "0,00",
 
-            tu_local_gaap: "0,00",
-            tu_tax_gaap: "0,00",
-            tu_difference: "0,00",
-            tu_pl_permanent: "0,00",
-            tu_oci_permanent: "0,00",
-            tu_permanent: "0,00",
-            tu_pl_temporary: "0,00",
-            tu_oci_temporary: "0,00",
-            tu_temporary: "0,00",
-            tu_pl: "0,00",
-            tu_oci: "0,00",
+          tu_local_gaap: "0,00",
+          tu_tax_gaap: "0,00",
+          tu_difference: "0,00",
+          tu_pl_permanent: "0,00",
+          tu_oci_permanent: "0,00",
+          tu_permanent: "0,00",
+          tu_pl_temporary: "0,00",
+          tu_oci_temporary: "0,00",
+          tu_temporary: "0,00",
+          tu_pl: "0,00",
+          tu_oci: "0,00",
 
-            pl_true_up: "0,00",
-            oci_true_up: "0,00",
-            pl_movement: "0,00",
-            oci_movement: "0,00",
-          }
-        } else {
-          return this.$store.state.Differences.find(function(x) { return x.id == r })
+          pl_true_up: "0,00",
+          oci_true_up: "0,00",
+          pl_movement: "0,00",
+          oci_movement: "0,00",
         }
+      } else {
+        return this.$store.state.Differences.find(function(x) { return x.id == r })
+      }
     },
     lineItem() {
-      const d = this.difference()
+      let d = this.difference
       if (d.bs_line_item_id !== null) {
         return this.$store.state.LineItems.find(function(x) { return x.id == d.bs_line_item_id })
       } else {
         return {}
       }
-    },
-    makeForm() {
-      this.formData = Object.assign({}, this.difference())
     }
-  },
-  computed: {
-    lineItems() { return this.$store.state.LineItems },
-    version() { return this.$store.state.Version }
   },
   created() {
     // Copy difference-data from state to be used as form model.

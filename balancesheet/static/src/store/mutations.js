@@ -18,7 +18,8 @@ export const mutations = {
       // Update the current difference (which is connected and updates the store) 
       // with the response values. Result: Store is up-to-date, Balance Sheet List-
       // view reflects the new data.
-      Object.assign(payload.difference, JSON.parse(payload.response.difference))
+      Object.assign(payload.difference, payload.response.difference)
+      Object.assign(payload.lineItem, payload.response.lineItem)
       
       // Problem: The currently visible single difference is not the difference
       // from the store (not connected) but just a copy of the difference. In order
@@ -30,7 +31,7 @@ export const mutations = {
     },
     
     [types.NEW_DIFFERENCE] (state, payload) {
-      state.Differences.push(JSON.parse(payload.response.difference))
+      state.Differences.push(payload.response.difference)
     },
     
     [types.STATUS_START] (state) {

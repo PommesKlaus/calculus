@@ -18,7 +18,9 @@ export default {
         
         Vue.http.put(providedDetailURL + payload.formData.id, data)
         .then((response) => {
-            payload['response'] = response.body
+            payload['response'] = {}
+            payload['response']['difference'] = JSON.parse(response.body.difference)
+            payload['response']['lineItem'] = JSON.parse(response.body.line_item)
             commit(types.UPDATE_DIFFERENCE, payload)
             commit(types.STATUS_FINISH)
         }, (response) => {
@@ -44,10 +46,11 @@ export default {
         commit(types.STATUS_START)
         Vue.http.post(providedDetailURL, data)
         .then((response) => {
-            payload['response'] = response.body
+            payload['response'] = {}
+            payload['response']['difference'] = JSON.parse(response.body.difference)
+            payload['response']['lineItem'] = JSON.parse(response.body.line_item)
             commit(types.NEW_DIFFERENCE, payload)
             commit(types.STATUS_FINISH)
-            console.log(payload.response.difference.id)
             router.push({ name: 'differenceDetails', params: { differenceId: payload.response.difference.id }})
         }, (response) => {
             console.log("ERROR", response)
