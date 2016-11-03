@@ -21,11 +21,12 @@ class DifferenceView(View):
         r = json.loads(request.body.decode('utf-8'))
         difference = Difference()
         for key, value in r.items():
-            if key not in ['comment']:
+            if key not in ['comment', 'name', 'bs_line_item_id', 'version_id']:
                 setattr(difference, key, parse_decimal(value, locale=LANGUAGE_CODE[:2]))
             else:
                 setattr(difference, key, value)
         try:
+            # pdb.set_trace()
             difference.save()
 
             line_item = BsLineItem.objects.filter(pk=difference.bs_line_item_id).annotate(

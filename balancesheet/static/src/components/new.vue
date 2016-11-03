@@ -3,20 +3,10 @@
     <form v-on:submit.prevent="onSubmit">
   
       <div class="col-md-2">Bilanzlinie:</div>
-      <div class="col-md-10">
-        <select v-model="formData.bs_line_item_id" v-if="$route.name==='differenceNew'" class="form-control">
-          <option v-for="item in lineItems" v-bind:value="item.id">
-            {{ item.name }}
-          </option>
-        </select>
-        {{ lineItem().name }}
-      </div>
+      <div class="col-md-10">{{ lineItem.name }}</div>
   
       <div class="col-md-2">Sachverhalt:</div>
-      <div class="col-md-10">
-        <input v-if="$route.name==='differenceNew'" v-model="formData.name" class="form-control">
-        <span v-else>{{ formData.name }}</span>
-      </div>
+      <div class="col-md-10">{{ formData.name }}</div>
       
       <h2>Gesamtdifferenz Local GAAP/Tax GAAP</h2>
       <table class="table table-hover">
@@ -163,14 +153,11 @@ module.exports = {
   },
   methods: {
     onSubmit (e) {
-      let r = this.$route.params.differenceId || null
-      if (r === null) {
-        return this.$store.dispatch('newDifference', {difference: this.difference, formData: this.formData})
-      } else {
-        return this.$store.dispatch('updateDifference', {difference: this.difference, formData: this.formData})
-      }
-    },
-        difference () {
+      return this.$store.dispatch('updateDifference', {difference: this.difference, formData: this.formData})
+    }
+  },
+  computed: {
+    difference () {
         let r = this.$route.params.differenceId || null
         if (r === null) {
           return {
@@ -224,30 +211,21 @@ module.exports = {
           return this.$store.state.Differences.find(function(x) { return x.id == r })
         }
     },
+    lineItems() { return this.$store.state.LineItems },
     lineItem() {
-      const d = this.difference()
+      const d = this.difference
       if (d.bs_line_item_id !== null) {
         return this.$store.state.LineItems.find(function(x) { return x.id == d.bs_line_item_id })
       } else {
         return {}
       }
     },
-    makeForm() {
-      this.formData = Object.assign({}, this.difference())
-    }
-  },
-  computed: {
-    lineItems() { return this.$store.state.LineItems },
     version() { return this.$store.state.Version }
   },
-  created() {
+  mounted() {
     // Copy difference-data from state to be used as form model.
     // Changes are only merged to state/store if form is submitted.
-    this.makeForm()
-  },
-  watch: {
-    // call again the method if the route changes
-    '$route': 'makeForm'
+    this.formData = Object.assign({}, this.difference)
   }
 }
 </script>

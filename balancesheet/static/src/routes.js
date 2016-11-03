@@ -1,6 +1,7 @@
 import VueRouter from 'vue-router'
 import BalanceSheet from './components/balancesheet.vue'
 import Details from './components/details.vue'
+// import NewDiff from './components/new.vue'
 
 const routes = [
   { 
@@ -11,7 +12,7 @@ const routes = [
   { 
     path: '/neu', 
     name: 'differenceNew',
-    component: Details 
+    component: Details
   },
   { 
     path: '/details/:differenceId', 

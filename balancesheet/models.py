@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from decimal import Decimal
 
 from core.models import Version
 
@@ -25,46 +26,46 @@ class Difference(models.Model):
     bs_line_item = models.ForeignKey('BsLineItem', on_delete=models.PROTECT)
     version = models.ForeignKey(Version, related_name='Difference_version')
 
-    local_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    tax_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    difference = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
-    pl_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    oci_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    permanent = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
-    pl_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
-    oci_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
-    pl = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
-    oci = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
+    local_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    tax_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    difference = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))  # Calculated Field
+    pl_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    oci_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    permanent = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))  # Calculated Field
+    pl_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))  # Calculated Field
+    oci_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    temporary = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))  # Calculated Field
+    pl = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))  # Calculated Field
+    oci = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))  # Calculated Field
 
-    py_local_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    py_tax_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    py_difference = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    py_pl_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    py_oci_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    py_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    py_pl_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    py_oci_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    py_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    py_pl = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    py_oci = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
+    py_local_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    py_tax_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    py_difference = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    py_pl_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    py_oci_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    py_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    py_pl_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    py_oci_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    py_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    py_pl = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    py_oci = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
 
-    tu_local_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    tu_tax_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    tu_difference = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    tu_pl_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    tu_oci_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    tu_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    tu_pl_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    tu_oci_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    tu_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    tu_pl = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
-    tu_oci = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)
+    tu_local_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    tu_tax_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    tu_difference = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    tu_pl_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    tu_oci_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    tu_permanent = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    tu_pl_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    tu_oci_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    tu_temporary = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    tu_pl = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
+    tu_oci = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
 
-    pl_true_up = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
-    oci_true_up = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
-    pl_movement = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
-    oci_movement = models.DecimalField(max_digits=13, decimal_places=2, default=0.00)  # Calculated Field
+    pl_true_up = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))  # Calculated Field
+    oci_true_up = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))  # Calculated Field
+    pl_movement = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))  # Calculated Field
+    oci_movement = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))  # Calculated Field
 
     class Meta:
         # unique_together = ('name', 'version', 'bs_line_item')
