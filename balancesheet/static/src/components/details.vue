@@ -146,6 +146,7 @@
         <textarea v-model="formData.comment" placeholder="Kurze Beschreibung des Sachverhalts" class="form-control" rows="5"></textarea>
       </div>
       
+      <button @click="onDelete()" v-show="deletable()" class="btn btn-danger center">Löschen</button>
       <button type="submit" class="btn btn-success center">Speichern</button>
     </form>
   </div>
@@ -172,6 +173,18 @@ module.exports = {
     },
     makeForm() {
       this.formData = Object.assign({}, this.difference)
+    }, 
+    deletable() {
+      let field_list = ['difference', 'oci_permanent', 'oci_temporary', 'pl_permanent', 'pl_temporary', 'py_difference', 'py_oci_permanent', 'py_oci_temporary', 'py_pl_permanent', 'py_pl_temporary', 'tu_difference', 'tu_oci_permanent', 'tu_oci_temporary', 'tu_pl_permanent', 'tu_pl_temporary']
+      let fd = this.formData
+      let res = field_list.every(function(elem) {
+        return fd[elem] === "0,00"
+      })
+      return res
+    },
+    onDelete (e) {
+      console.log("DELETE CLICK")
+      return
     }
   },
   computed: {

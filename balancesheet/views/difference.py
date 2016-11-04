@@ -69,3 +69,19 @@ class DifferenceView(View):
 
         except Exception as e:
             return HttpResponseBadRequest(str(e))
+        
+    def delete(self, request, *args, **kwargs):
+        r = json.loads(request.body.decode('utf-8'))
+        difference = Difference.objects.select_related('version').get(pk=int(r['id']))
+        field_list = ['difference', 'oci_permanent', 'oci_temporary', 'pl_permanent', 'pl_temporary', 'py_difference', 'py_oci_permanent', 'py_oci_temporary', 'py_pl_permanent', 'py_pl_temporary', 'tu_difference', 'tu_oci_permanent', 'tu_oci_temporary', 'tu_pl_permanent', 'tu_pl_temporary']
+        id = difference.id
+        
+        if all(difference(key) == Decimal(0.00) for key in field_list) and difference.version.closed:
+            try:
+                difference.delete()
+                return JsonResponse({'deleted_difference_id': id})
+            except Exception as e:
+                return HttpResponseBadRequest(str(e))
+        else:
+            return HttpResponseBadRequest('Not allowed!')
+            
