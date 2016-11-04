@@ -57,5 +57,20 @@ export default {
             // TODO: Error-Handling in Details-View (Backend currently rises BadRequest400 with error as short string description)
             commit(types.STATUS_FINISH)
         })        
+    },
+
+    deleteDifference: ({ commit }, payload) => {
+        
+        commit(types.STATUS_START)       
+        Vue.http.delete(providedDetailURL + payload.difference.id, {id: payload.difference.id})
+        .then((response) => {
+            commit(types.DELETE_DIFFERENCE, payload)
+            commit(types.STATUS_FINISH)
+            router.push({ name: 'BalanceSheet'})
+        }, (response) => {
+            console.log("ERROR", response)
+            // TODO: Error-Handling in Details-View (Backend currently rises BadRequest400 with error as short string description)
+            commit(types.STATUS_FINISH)
+        })        
     }
 }

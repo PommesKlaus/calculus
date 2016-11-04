@@ -33,6 +33,14 @@ export const mutations = {
     [types.NEW_DIFFERENCE] (state, payload) {
       state.Differences.push(payload.response.difference)
     },
+
+    [types.DELETE_DIFFERENCE] (state, payload) {
+      for(let i=0; i<= state.Differences.length; i++) {
+        if (state.Differences[i].id===payload.difference.id) {
+          state.Differences.splice( i, 1 );
+        }
+      }
+    },
     
     [types.STATUS_START] (state) {
       state.Status++

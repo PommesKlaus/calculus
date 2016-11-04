@@ -71,17 +71,23 @@ class DifferenceView(View):
             return HttpResponseBadRequest(str(e))
         
     def delete(self, request, *args, **kwargs):
-        r = json.loads(request.body.decode('utf-8'))
-        difference = Difference.objects.select_related('version').get(pk=int(r['id']))
+        difference = Difference.objects.select_related('version').get(pk=int(kwargs['difference_id']))
         field_list = ['difference', 'oci_permanent', 'oci_temporary', 'pl_permanent', 'pl_temporary', 'py_difference', 'py_oci_permanent', 'py_oci_temporary', 'py_pl_permanent', 'py_pl_temporary', 'tu_difference', 'tu_oci_permanent', 'tu_oci_temporary', 'tu_pl_permanent', 'tu_pl_temporary']
-        id = difference.id
-        
-        if all(difference(key) == Decimal(0.00) for key in field_list) and difference.version.closed:
+        field_test = []
+        for f in field_list:
+            field_test.append(getattr(difference, f)==Decimal(0.00))
+        bs_line_item_id = difference.bs_line_item_id
+        if all(field_test) and not difference.version.closed:
             try:
                 difference.delete()
-                return JsonResponse({'deleted_difference_id': id})
+                line_item = BsLineItem.objects.filter(pk=bs_line_item_id).annotate(
+                    subtotal_difference=Sum('difference__difference'),
+                    subtotal_temporary=Sum('difference__temporary'),
+                    subtotal_pl_true_up=Sum('difference__pl_true_up'),
+                    subtotal_pl_movement=Sum('difference__pl_movement')
+                )
+                return JsonResponse({'line_item': json.dumps(format_list_decimal2string(line_item)[0], cls=DjangoJSONEncoder)})
             except Exception as e:
                 return HttpResponseBadRequest(str(e))
         else:
             return HttpResponseBadRequest('Not allowed!')
-            
