@@ -7,6 +7,7 @@
         providedLineItems = {{ line_items|safe }};
         providedDifferences = {{ differences|safe }};
         providedVersion = {{ version|safe }};
+        providedTotals = {{ totals|safe }};
         providedDetailURL = "{% url 'balancesheet_api:difference' %}";
     </script>
     <script src="{% static 'dist/build.js' %}"></script>

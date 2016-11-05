@@ -146,7 +146,7 @@
         <textarea v-model="formData.comment" placeholder="Kurze Beschreibung des Sachverhalts" class="form-control" rows="5"></textarea>
       </div>
       
-      <a href="#" v-on:click="onDelete" v-show="deletable()" class="btn btn-danger center">Löschen</a>
+      <a href="#" v-on:click="onDelete" v-show="formData.deletable" class="btn btn-danger center">Löschen</a>
       <button type="submit" class="btn btn-success center">Speichern</button>
     </form>
   </div>
@@ -166,21 +166,13 @@ module.exports = {
     onSubmit: function(e) {
       let r = this.$route.params.differenceId || null
       if (r === null) {
-        return this.$store.dispatch('newDifference', {difference: this.difference, lineItem: this.lineItem, formData: this.formData})
+        return this.$store.dispatch('newDifference', {difference: this.difference, lineItem: this.lineItem, totals: this.totals, formData: this.formData})
       } else {
-        return this.$store.dispatch('updateDifference', {difference: this.difference, lineItem: this.lineItem, formData: this.formData})
+        return this.$store.dispatch('updateDifference', {difference: this.difference, lineItem: this.lineItem, totals: this.totals, formData: this.formData})
       }
     },
     makeForm: function() {
       this.formData = Object.assign({}, this.difference)
-    }, 
-    deletable: function() {
-      let field_list = ['difference', 'oci_permanent', 'oci_temporary', 'pl_permanent', 'pl_temporary', 'py_difference', 'py_oci_permanent', 'py_oci_temporary', 'py_pl_permanent', 'py_pl_temporary', 'tu_difference', 'tu_oci_permanent', 'tu_oci_temporary', 'tu_pl_permanent', 'tu_pl_temporary']
-      let fd = this.formData
-      let res = field_list.every(function(elem) {
-        return fd[elem] === "0,00"
-      })
-      return res
     },
     onDelete: function (e) {
       return this.$store.dispatch('deleteDifference', {difference: this.difference, lineItem: this.lineItem})
@@ -189,6 +181,7 @@ module.exports = {
   computed: {
     lineItems() { return this.$store.state.LineItems },
     version() { return this.$store.state.Version },
+    totals() { return this.$store.state.Totals },
     difference () {
       let r = this.$route.params.differenceId || null
       if (r === null) {

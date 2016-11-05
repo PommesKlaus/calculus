@@ -40,6 +40,17 @@
           <td>{{ dif.pl_movement }}</td>
         </tr>
       </tbody>
+      <tfoot>
+        <tr>
+          <th class="balance-sheet-icon-col">SUMME</th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th class="">{{ Totals.difference__sum }}</th>
+          <th class="">{{ Totals.pl_true_up__sum }}</th>
+          <th class="">{{ Totals.pl_movement__sum }}</th>
+        </tr>
+      </tfoot>
     </table>
   </div>
 </template>
@@ -60,6 +71,7 @@ module.exports = {
   computed: mapState([
     'Differences',
     'LineItems',
+    'Totals',
     'Version'
   ])
 }

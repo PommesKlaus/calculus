@@ -49,6 +49,7 @@ export default {
             payload['response'] = {}
             payload['response']['difference'] = JSON.parse(response.body.difference)
             payload['response']['lineItem'] = JSON.parse(response.body.line_item)
+            payload['response']['totals'] = JSON.parse(response.body.totals)
             commit(types.NEW_DIFFERENCE, payload)
             commit(types.STATUS_FINISH)
             router.push({ name: 'differenceDetails', params: { differenceId: payload.response.difference.id }})

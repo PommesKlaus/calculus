@@ -7,7 +7,7 @@ from django.db.models import Sum
 
 from ..models import Difference, BsLineItem
 from core.models import Version
-from core.core_functions import format_list_decimal2string
+from core.core_functions import format_list_decimal2string, format_dict_decimal2string
 
 
 class BalanceSheetView(View):
@@ -40,8 +40,11 @@ class BalanceSheetView(View):
 
         differences = Difference.objects.filter(version_id=self.kwargs['version_id'])
 
+        bs_total = differences.aggregate(Sum('difference'), Sum('pl_true_up'), Sum('pl_movement'))
+
         return render(request, self.template_name, {
             'line_items': json.dumps(format_list_decimal2string(bs_line_items), cls=DjangoJSONEncoder),
             'differences': json.dumps(format_list_decimal2string(differences), cls=DjangoJSONEncoder),
+            'totals': json.dumps(format_dict_decimal2string(bs_total), cls=DjangoJSONEncoder),
             'version': json.dumps(version, cls=DjangoJSONEncoder)
         })

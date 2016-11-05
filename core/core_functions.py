@@ -21,7 +21,8 @@ def format_list_decimal2string(queryset):
 
 def format_dict_decimal2string(queryset):
     res = {}
-    for k, v in queryset.__dict__.items():
+    d = queryset if type(queryset) == dict else queryset.__dict__
+    for k, v in d.items():
         if type(v) == Decimal:
             # Format Decimal to string
             res[k] = format_decimal(v, format='#,##0.00', locale=LANGUAGE_CODE[:2])

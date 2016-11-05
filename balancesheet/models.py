@@ -25,6 +25,7 @@ class Difference(models.Model):
     comment = models.TextField(null=True, blank=True, default='')
     bs_line_item = models.ForeignKey('BsLineItem', on_delete=models.PROTECT)
     version = models.ForeignKey(Version, related_name='Difference_version')
+    deletable = models.BooleanField(default=True)
 
     local_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
     tax_gaap = models.DecimalField(max_digits=13, decimal_places=2, default=Decimal(0.00))
@@ -87,4 +88,14 @@ class Difference(models.Model):
         self.oci_true_up = self.tu_oci - self.py_oci
         self.pl_movement = self.pl - self.tu_pl
         self.oci_movement = self.oci - self.tu_oci
+
+        # Set property "deletable" based on existing values (True if all==0.00)
+        field_list = ['difference', 'oci_permanent', 'oci_temporary', 'pl_permanent', 'pl_temporary', 'py_difference',
+                      'py_oci_permanent', 'py_oci_temporary', 'py_pl_permanent', 'py_pl_temporary', 'tu_difference',
+                      'tu_oci_permanent', 'tu_oci_temporary', 'tu_pl_permanent', 'tu_pl_temporary']
+        # field_test = []
+        # for f in field_list:
+        #     field_test.append(getattr(self, f) == Decimal(0.00))
+        self.deletable = all([getattr(self, f) == Decimal(0.00) for f in field_list])
+
         super(Difference, self).save(*args, **kwargs)
