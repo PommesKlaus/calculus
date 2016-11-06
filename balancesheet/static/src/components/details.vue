@@ -146,7 +146,7 @@
         <textarea v-model="formData.comment" placeholder="Kurze Beschreibung des Sachverhalts" class="form-control" rows="5"></textarea>
       </div>
       
-      <a href="#" v-on:click="onDelete" v-show="formData.deletable" class="btn btn-danger center">Löschen</a>
+      <a href="#" v-on:click="onDelete" v-show="formData.deletable && !version.closed" class="btn btn-danger center">Löschen</a>
       <button type="submit" class="btn btn-success center">Speichern</button>
     </form>
   </div>
