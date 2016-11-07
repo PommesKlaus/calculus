@@ -93,9 +93,6 @@ class Difference(models.Model):
         field_list = ['difference', 'oci_permanent', 'oci_temporary', 'pl_permanent', 'pl_temporary', 'py_difference',
                       'py_oci_permanent', 'py_oci_temporary', 'py_pl_permanent', 'py_pl_temporary', 'tu_difference',
                       'tu_oci_permanent', 'tu_oci_temporary', 'tu_pl_permanent', 'tu_pl_temporary']
-        # field_test = []
-        # for f in field_list:
-        #     field_test.append(getattr(self, f) == Decimal(0.00))
         self.deletable = all([getattr(self, f) == Decimal(0.00) for f in field_list])
 
         super(Difference, self).save(*args, **kwargs)

@@ -13,12 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
-from django.contrib import admin
+from django.conf.urls import url
+from .views import index
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^(?P<company_id>\d+)/(?P<year_id>\d+)/(?P<version_id>\d+)/bilanz/', include('balancesheet.urls', namespace='balancesheet')),
-    url(r'^api/bilanz/', include('balancesheet.urls_api', namespace='balancesheet_api')),
-    url(r'^$', include('core.urls', namespace='core'))
+    #Gesellschaften
+    url(r'^$', index.CompanyView.as_view(), name='index_company'),
 ]
+
+

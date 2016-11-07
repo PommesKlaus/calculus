@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Gesellschaften{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>Gesellschaft auswählen</h1>
+    {% if Companies %}
+    <table class="table table-hover table-bordered table-responsive">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in Companies %}
+            <tr>
+                <td><a href="#">{{ c.shortname }}</a></td>
+                <td><a href="#">{{ c.name }}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <h3 class="alert-danger">Keine Gesellschaften vorhanden!</h3>
+    {% endif %}
+</div>
+{% endblock %}
