@@ -14,11 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from .views import index
+from .views import company, year
 
 urlpatterns = [
-    #Gesellschaften
-    url(r'^$', index.CompanyView.as_view(), name='index_company'),
+    # Companies
+    url(r'^$', company.CompanyView.as_view(), name='company_index'),
+
+    # Years
+    url(r'^(?P<company_id>\d+)/$', year.YearListView.as_view(), name='year_index'),
+    url(r'^(?P<company_id>\d+)/(?P<year_id>\d+)/$', year.YearDetailView.as_view(), name='year_detail'),
 ]
 
 
