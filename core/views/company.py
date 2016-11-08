@@ -10,7 +10,7 @@ class CompanyView(View):
 
     def get(self, request, *args, **kwargs):
 
-        c = get_list_or_404(Company)
+        c = Company.objects.all()
         context = {
             'Companies': c,
             

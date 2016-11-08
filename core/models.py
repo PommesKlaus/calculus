@@ -23,6 +23,7 @@ class Year(models.Model):
     company = models.ForeignKey('Company', verbose_name='Gesellschaft', on_delete=models.PROTECT)
 
     class Meta:
+        ordering = ['end_date']
         unique_together = ('company', 'end_date')
         verbose_name = 'Wirtschaftsjahr'
         verbose_name_plural = 'Wirtschaftsjahre'

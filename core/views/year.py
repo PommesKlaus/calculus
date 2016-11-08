@@ -11,11 +11,16 @@ class YearListView(View):
 
     def get(self, request, *args, **kwargs):
 
-        y = get_list_or_404(Year, company_id=kwargs['company_id'])
+        y = Year.objects.filter(company_id=kwargs['company_id'])
         context = {
             'Years': y,
+            'company_id': kwargs['company_id']
         }
         return render(request, self.template_name, context)
+        
+    def post(self, request, *args, **kwargs):
+        y = Year.objects.filter(company_id=kwargs['company_id']).reverse()[0]
+        return
 
 
 class YearDetailView(View):
