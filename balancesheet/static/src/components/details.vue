@@ -9,7 +9,7 @@
             {{ item.name }}
           </option>
         </select>
-        {{ lineItem.name }}
+        <span v-if="$route.name!=='differenceNew'">{{ lineItem.name }}</span>
       </div>
   
       <div class="col-md-2">Sachverhalt:</div>
@@ -188,7 +188,7 @@ module.exports = {
         return {
           name: "",
           comment: "",
-          bs_line_item_id: null,
+          bs_line_item_id: this.formData.bs_line_item_id || null,
           version_id: this.$store.state.Version.id,
 
           local_gaap: "0,00",
@@ -240,8 +240,10 @@ module.exports = {
       let d = this.difference
       if (d.bs_line_item_id !== null) {
         return this.$store.state.LineItems.find(function(x) { return x.id == d.bs_line_item_id })
+      //} else if (this.formData.bs_line_item_id !== null) {
+      //  return this.$store.state.LineItems.find(function(x) { return x.id == this.formData.bs_line_item_id })
       } else {
-        return {}
+          return {}
       }
     }
   },

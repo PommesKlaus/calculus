@@ -21,7 +21,8 @@ export const mutations = {
       // view reflects the new data.
       Object.assign(payload.difference, payload.response.difference)
       Object.assign(payload.lineItem, payload.response.lineItem)
-      
+      Object.assign(payload.totals, payload.response.totals)
+
       // Problem: The currently visible single difference is not the difference
       // from the store (not connected) but just a copy of the difference. In order
       // to display the response-data in the currently visible difference-form,
