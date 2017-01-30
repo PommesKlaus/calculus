@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Version auswählen{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Version auswählen</h1>
+
+        {% if messages %}
+            <ul class="messages list-unstyled">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="alert alert-{{ message.tags }} text-center"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <div class="text-right">
+            <a href="javascript:void(0);"><span id="new_version_button" class="glyphicon glyphicon-plus-sign btn btn-default" title="Neue Version anlegen"  data-toggle="modal" data-target="#modalNewVersion"></span></a>
+        </div>
+
+        {% if Versions %}
+            <div>
+                <table class="table table-hover table-bordered table-responsive">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Beschreibung</th>
+                        <th>Erstellt am</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for v in Versions %}
+                        <tr>
+                            <td><a href="{% url 'balancesheet:balancesheet' company_id=Company_id year_id=Year_id version_id=v.id %}">{{ v.shortname }}</a></td>
+                            <td><a href="{% url 'balancesheet:balancesheet' company_id=Company_id year_id=Year_id version_id=v.id %}">{{ v.name }}</a></td>
+                            <td><a href="{% url 'balancesheet:balancesheet' company_id=Company_id year_id=Year_id version_id=v.id %}">{{ v.created_at | date:"d.m.Y" }}</a></td>
+                            <td>{% if v.deletable %}<button class="btn btn-danger btn-xs delete-button" data-delete-version={{ v.id }}><span class="glyphicon glyphicon-remove-sign" title="Version löschen"></span></button></form>{% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div>
+                <h3 class="alert-danger">Keine Versionen vorhanden!</h3>
+            </div>
+        {% endif %}
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalNewVersion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    {% comment %}<form role="form" action="{% url 'core:year_index' company_id=Company_id %}" method="post">
+                        {% csrf_token %}
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title" id="modelNewYearLabel">Neues Jahr anlegen</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="inputFromDate">Von</label>
+                                <input type="date" class="form-control" name="inputFromDate" id="inputFromDate" readonly="readonly" value="{{ Nextyear | date:'d.m.Y' }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputToDate">Bis</label>
+                                <input type="date" class="form-control" name="inputToDate" id="inputToDate" value="{{ Yearend | date:'d.m.Y' }}">
+                            </div>
+                            <div>
+                                {% if Years %}
+                                    <input type="hidden" value="{{ Years.last.id }}" name="prior_year_id" />
+                                {% else %}
+                                    <input type="hidden" value="None" name="prior_year_id" />
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-default" data-dismiss="modal">Schließen</button>
+                            <button type="submit" class="btn btn-primary">Speichern</button>
+                        </div>
+                    </form>{% endcomment %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+    $('.delete-button').click(function() {
+        var version_id = $(this).attr("data-delete-version");
+        $.ajax({
+            url: {% url 'core:year_index' company_id=Company_id %} + year_id,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+            },
+            type: 'DELETE',
+            success: function(result) {
+                console.log("Delete successful!");
+                window.location = {% url 'core:year_index' company_id=Company_id %};
+            }
+        });
+    });
+</script>
+{% endblock %}
